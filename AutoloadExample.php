@@ -9,6 +9,6 @@ class AutoloadExample extends \yii\base\Widget
 {
     public function run()
     {
-        return "Hello, I am Max!";
+        return "Hello, I am Max     !";
     }
 }
