@@ -1,0 +1,21 @@
+{
+    "name": "major98113/yii2-umbrelliotest",
+    "description": "Данное расширение которое может искать в файле вхождение строки, и выдавать номер строки в файле и позицию в строке. Файл может быть произвольного размера.",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","umbrelliotest"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Максим",
+            "email": "meison98@bk.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "major98113\\umbrelliotest\\": ""
+        }
+    }
+}
