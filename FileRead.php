@@ -38,7 +38,6 @@ class FileRead extends \yii\base\Widget
             $ch = curl_init($this->path);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_exec($ch);
-            echo curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
             return curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         }
         else{
