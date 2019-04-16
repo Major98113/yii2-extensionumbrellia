@@ -10,25 +10,41 @@ class FileRead extends \yii\base\Widget
     public $filePath = '';
     public $searchStr = '';
     public $maxSize = '';
+    public $mimeType = '';
 
 
 
     public function run()
     {
-        if (file_exists($this->path)) { //проверяем, существует ли файл
-            $this->CheckDirectSize(filesize($this->path));//если файл существует локально, смотрим его размер
+        if (file_exists($this->path) && ($this->checkMimeType(0) == $this->mimeType || $this->mimeType == '')) { //проверяем, существует ли файл
+            $this->checkMimeType(0);
+            $this->CheckDirectSize(filesize($this->path));
         }
         else{ // если он находится удаленно, то file_exists выкинет false, поэтому делаю проверку на существование файла по url с помощью is_url_exist
 
-            if($this->is_url_exist($this->path)){
-                $this->CheckDirectSize($this->curl_get_file_size($this->path));//если файл существует удаленно, проверяем его вес через curl
+            if($this->is_url_exist($this->path) && ($this->checkMimeType(1) == $this->mimeType || $this->mimeType == '')){
+                $this->CheckDirectSize($this->curl_get_file_size($this->path));
             }
             else{
-                return 'No such FILE : '.$this->path;
+                return 'No such FILE : '.$this->path.' or Forbidden mime_type';
             }
         }
     }
 
+
+    public function checkMimeType($remote)
+    {
+        if($remote == true){
+            $ch = curl_init($this->path);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_exec($ch);
+            echo curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+            return curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        }
+        else{
+            return mime_content_type($this->path);
+        }
+    }
 
 
     public function searchLine($content) //функция для поиска слова в строке, выделил отдельно чтобы было удобнее ориентироваться
