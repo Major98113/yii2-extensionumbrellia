@@ -112,7 +112,7 @@ class FileRead extends \yii\base\Widget
                 $this->GetSearchLines();
             }
             else{
-                return "Too BIG SIZE";
+                echo "Too BIG SIZE";
             }
         }
         else{ //если maxSize не задан, начинаем поиск подстроки в файле
@@ -127,6 +127,7 @@ class FileRead extends \yii\base\Widget
 
     public function GetSearchLines(){
         $fp = fopen($this->path, "r"); // Открываем файл в режиме чтения
+        $counter = 0;
         if ($fp)
         {
             $line = 0;
@@ -136,8 +137,13 @@ class FileRead extends \yii\base\Widget
                 $mytext = fgets($fp, 999);
                 $pos = $this->searchLine($mytext);
                 if ($pos !== false) {
+                    $counter++;
                     echo "Нашел '$this->searchStr' в позиции $pos в строке $line <br/>";
                 }
+            }
+
+            if ($counter==0){
+                echo "Строка '$this->searchStr' не найдена в файле '$this->path'";
             }
         }
         else echo "Ошибка при открытии файла";
